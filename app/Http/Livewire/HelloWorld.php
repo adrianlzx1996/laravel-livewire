@@ -36,9 +36,9 @@
 			$this->name = 'hydrated@';
 		}
 
-		public function updated ()
+		public function updatedName ()
 		{
-			$this->name = strtoupper($this->name);
+			$this->name = ucwords($this->name);
 		}
 
 		public function render ()
