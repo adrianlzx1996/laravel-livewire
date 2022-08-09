@@ -10,7 +10,7 @@
 
     </head>
     <body class="antialiased">
-        Hello World
+        <livewire:hello-world/>
 
     @livewireScripts
     </body>
