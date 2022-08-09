@@ -11,7 +11,7 @@
 		!
 	@endif
 
-	<form action="#" wire:submit.prevent="resetName('Bingo')">
+	<form action="#" wire:submit.prevent="$set('name', 'Bingo')">
 		<button>Reset Name</button>
 	</form>
 </div>
