@@ -11,5 +11,7 @@
 		!
 	@endif
 
-	<button wire:click="resetName($event.target.innerText)">Reset Name</button>
+	<form action="#" wire:submit.prevent="resetName('Bingo')">
+		<button>Reset Name</button>
+	</form>
 </div>
