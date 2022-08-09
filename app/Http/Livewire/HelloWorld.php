@@ -20,9 +20,9 @@
 		 *
 		 * @return void
 		 */
-		public function mount ()
+		public function mount ( $name )
 		{
-			$this->name = 'Changed';
+			$this->name = $name;
 		}
 
 		public function render ()

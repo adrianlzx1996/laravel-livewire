@@ -10,7 +10,7 @@
 
     </head>
     <body class="antialiased">
-        <livewire:hello-world/>
+    <livewire:hello-world :name="'New Name'"/>
 
     @livewireScripts
     </body>
