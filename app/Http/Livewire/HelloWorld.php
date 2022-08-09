@@ -1,22 +1,32 @@
 <?php
 
-namespace App\Http\Livewire;
+	namespace App\Http\Livewire;
 
-use Livewire\Component;
+	use Livewire\Component;
 
-class HelloWorld extends Component
-{
-	public $name     = 'Haha';
-	public $loud     = false;
-	public $greeting = [];
-
-	public function resetName ( $name = "Hehe" )
+	class HelloWorld extends Component
 	{
-		$this->name = $name;
-	}
+		public $name     = 'Haha';
+		public $loud     = false;
+		public $greeting = [];
 
-	public function render ()
-	{
-		return view('livewire.hello-world');
+		public function resetName ( $name = "Hehe" )
+		{
+			$this->name = $name;
+		}
+
+		/**
+		 * First time this component is rendered, this function will be called
+		 *
+		 * @return void
+		 */
+		public function mount ()
+		{
+			$this->name = 'Changed';
+		}
+
+		public function render ()
+		{
+			return view('livewire.hello-world');
+		}
 	}
-}
