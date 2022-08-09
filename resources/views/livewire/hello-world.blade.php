@@ -11,5 +11,5 @@
 		!
 	@endif
 
-	<button wire:click="resetName('Adrian')">Reset Name</button>
+	<button wire:click="resetName($event.target.innerText)">Reset Name</button>
 </div>
