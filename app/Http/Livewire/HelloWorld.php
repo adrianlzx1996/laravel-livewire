@@ -6,7 +6,7 @@
 
 	class HelloWorld extends Component
 	{
-		public $name     = 'Haha';
+		public $names    = [ 'Jelly', 'Man', 'Chico' ];
 		public $loud     = false;
 		public $greeting = [];
 

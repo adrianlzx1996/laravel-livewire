@@ -1,5 +1,5 @@
 <div>
-	<input type="text" wire:model.debounce="name">
-
-	Hello {{ $name }}
+	@foreach($names as $name)
+		<livewire:say-hi :name="$name" :key="$name"/>
+	@endforeach
 </div>
