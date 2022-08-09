@@ -2,7 +2,6 @@
 
 	namespace App\Http\Livewire;
 
-	use Illuminate\Http\Request;
 	use Livewire\Component;
 
 	class HelloWorld extends Component
@@ -21,9 +20,25 @@
 		 *
 		 * @return void
 		 */
-		public function mount ( Request $request, $name )
+		public function mount ( $name )
 		{
-			$this->name = $request->input('name', $name);
+			$this->name = $name;
+		}
+
+		/**
+		 * This function will be called everytime the component is rendered, after mount method
+		 *
+		 * @return void
+		 */
+		public function hydrate ()
+		: void
+		{
+			$this->name = 'hydrated@';
+		}
+
+		public function updated ()
+		{
+			$this->name = strtoupper($this->name);
 		}
 
 		public function render ()
