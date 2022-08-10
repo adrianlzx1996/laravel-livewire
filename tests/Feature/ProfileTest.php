@@ -30,6 +30,20 @@
 			;
 		}
 
+		public function test_message_is_shown_on_save ()
+		: void
+		{
+			$user = User::factory()->make(
+				[ 'name' => 'foo', 'email' => 'bar@bar.com' ]
+			);
+
+			Livewire::actingAs($user)
+					->test('profile')
+					->call('save')
+					->assertDispatchedBrowserEvent('notify')
+			;
+		}
+
 		/**
 		 * @return void
 		 */
