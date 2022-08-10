@@ -16,6 +16,15 @@
 		public $newAvatar;
 		public $files    = [];
 
+		protected $rules
+			= [
+				'name'      => 'required|max:255',
+				'email'     => 'required|email',
+				'birthday'  => 'sometimes|date',
+				'about'     => 'sometimes|max:140',
+				'newAvatar' => 'image|max:2048',
+			];
+
 		public function mount ()
 		{
 			$this->name     = auth()->user()?->name;
@@ -42,17 +51,7 @@
 		public function save ()
 		: void
 		{
-			$profileData = $this->validate(
-				[
-					'name'      => 'required|max:255',
-					'email'     => 'required|email',
-					'birthday'  => 'sometimes|nullable|date',
-					'about'     => 'sometimes|nullable',
-					'newAvatar' => 'image|max:2048|mimes:png,jpeg,jpg,gif',
-				]
-			);
-
-			$fileName = $this->newAvatar->store('/', 'avatars');
+			$profileData = $this->validate();
 
 			auth()->user()?->update(
 				[
@@ -60,17 +59,17 @@
 					'email'    => $profileData['email'],
 					'birthday' => $profileData['birthday'],
 					'about'    => $profileData['about'],
-					'avatar'   => $fileName,
 				]
 			);
 
+			if ( $this->newAvatar ) {
+				$fileName = $this->newAvatar->store('/', 'avatars');
+				auth()->user()?->update([
+											'avatar' => $fileName,
+										]);
+			}
+
 			$this->emitSelf('notify-saved');
-
-			$this->dispatchBrowserEvent('notify', 'Profile saved!');
 		}
 
-		public function render ()
-		{
-			return view('livewire.profile');
-		}
 	}
