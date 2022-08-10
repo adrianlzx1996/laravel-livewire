@@ -9,6 +9,8 @@
 
 	<script defer src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
 
+	@stack('styles')
+
 	@vite('resources/css/app.css')
 	@livewireStyles
 </head>
@@ -28,5 +30,8 @@
 </div>
 
 @livewireScripts
+
+@stack('scripts')
+
 </body>
 </html>
