@@ -39,11 +39,6 @@
 						<x-input.filepond wire:model="newAvatar"/>
 						<x-input.filepond wire:model="files" multiple/>
 
-						<div>
-							@foreach($files as $file)
-								<img src="{{ $file->temporaryUrl() }}" alt="preview"/>
-							@endforeach
-						</div>
 					</x-input.group>
 
 				</div>
