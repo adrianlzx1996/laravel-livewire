@@ -47,7 +47,7 @@
 					'email'     => 'required|email',
 					'birthday'  => 'sometimes|nullable|date',
 					'about'     => 'sometimes|nullable',
-					'newAvatar' => 'image|max:2048',
+					'newAvatar' => 'image|max:2048|mimes:png,jpeg,jpg,gif',
 				]
 			);
 
