@@ -46,14 +46,30 @@
 		</div>
 
 		<div class="pt-5">
-			<div class="flex justify-end">
+			<div class="flex justify-end items-center space-x-3">
+
+				<span>
+					<span
+						x-cloak
+						x-data="{ open: false }"
+						x-show.transition.out.duration.1000ms="open"
+						x-init="
+							@this.on('notify-saved', () => {
+								open = true;
+								setTimeout(() => open = false, 2500)
+							});
+						"
+						class="text-gray-400"
+					>Saved!</span>
+				</span>
+
 				<button type="button"
 				        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 					Cancel
 				</button>
 
 				<button type="submit"
-				        class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+				        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 					Save
 				</button>
 			</div>

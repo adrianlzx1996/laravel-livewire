@@ -25,12 +25,14 @@
 				]
 			);
 
-			$user = auth()->user()?->update(
+			auth()->user()?->update(
 				[
 					'name'  => $profileData['name'],
 					'email' => $profileData['email'],
 				]
 			);
+
+			$this->emitSelf('notify-saved');
 
 			$this->dispatchBrowserEvent('notify', 'Profile saved!');
 		}
