@@ -2,6 +2,8 @@
 
 	namespace App\Http\Livewire\Auth;
 
+	use Illuminate\Http\RedirectResponse;
+	use Illuminate\Support\MessageBag;
 	use Livewire\Component;
 
 	class Login extends Component
@@ -10,28 +12,26 @@
 		public $password;
 		public $remember;
 
+		protected $rules
+			= [
+				'email'    => 'required|email|exists:users',
+				'password' => 'required|min:8',
+			];
+
 		public function login ()
+		: RedirectResponse|MessageBag
 		{
-			$this->validate([
-								'email'    => 'required|email|exists:users',
-								'password' => 'required|min:8',
-							]);
+			$credentials = $this->validate($this->rules);
 
-			auth()->attempt(
-				[
-					'email'    => $this->email,
-					'password' => $this->password,
-				],
-				$this->remember
-			);
-
-			return redirect()->intended(route('dashboard'));
+			return auth()->attempt($credentials)
+				? redirect()->intended('/')
+				: $this->addError('email', trans('auth.failed'));
 		}
 
 		public function render ()
 		{
 			return view('livewire.auth.login')
 				->layout('layouts.auth')
-			;;
+			;
 		}
 	}
