@@ -70,8 +70,8 @@
 				        @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()">
 					<span class="sr-only">Open user menu</span>
 					<img class="h-8 w-8 rounded-full"
-					     src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-					     alt="">
+					     src="{{ auth()->user()?->avatarUrl() }}"
+					     alt="Profile Photo">
 				</button>
 			</div>
 
