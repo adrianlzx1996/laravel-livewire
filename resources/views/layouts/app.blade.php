@@ -10,8 +10,16 @@
 	@livewireStyles
 </head>
 <body>
+<div class="min-h-full">
+	<x-header/>
+	{{--	<x-page.breadcrumb/>--}}
 
-{{ $slot }}
+	<x-main>
+		<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+			{{ $slot }}
+		</div>
+	</x-main>
+</div>
 
 @livewireScripts
 </body>
