@@ -10,6 +10,8 @@
 		public $loud     = false;
 		public $greeting = [];
 
+		protected $listeners = [ 'foo' => '$refresh' ];
+
 		public function resetName ( $name = "Hehe" )
 		{
 			$this->name = $name;

@@ -24,4 +24,9 @@
 		{
 			return view('livewire.say-hi');
 		}
+
+		public function emitFoo ()
+		{
+			$this->emit('foo');
+		}
 	}
