@@ -9,12 +9,14 @@
 		public $name;
 		public $email;
 		public $birthday = null;
+		public $about;
 
 		public function mount ()
 		{
 			$this->name     = auth()->user()?->name;
 			$this->email    = auth()->user()?->email;
 			$this->birthday = auth()->user()?->birthday?->format("m/d/Y");
+			$this->about    = auth()->user()?->about;
 		}
 
 		public function save ()
@@ -25,6 +27,7 @@
 					'name'     => 'required|max:255',
 					'email'    => 'required|email',
 					'birthday' => 'sometimes|nullable|date',
+					'about'    => 'sometimes|nullable',
 				]
 			);
 
@@ -33,6 +36,7 @@
 					'name'     => $profileData['name'],
 					'email'    => $profileData['email'],
 					'birthday' => $profileData['birthday'],
+					'about'    => $profileData['about'],
 				]
 			);
 

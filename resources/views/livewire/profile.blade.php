@@ -21,6 +21,11 @@
 						<x-input.text wire:model="email" id="email" name="email"/>
 					</x-input.group>
 
+					<x-input.group label="About" for="about" :error="$errors->first('about')"
+					               help-text="Write a few sentences about yourself">
+						<x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about"/>
+					</x-input.group>
+
 					<x-input.group label="Photo" for="photo">
 						<div class="flex items-center">
 							<x-icons.default-user/>
