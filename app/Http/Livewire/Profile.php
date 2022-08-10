@@ -3,14 +3,17 @@
 	namespace App\Http\Livewire;
 
 	use Livewire\Component;
+	use Livewire\WithFileUploads;
 
 	class Profile extends Component
 	{
+		use WithFileUploads;
+
 		public $name;
 		public $email;
 		public $birthday = null;
 		public $about;
-		public $avatar;
+		public $newAvatar;
 
 		public function mount ()
 		{
@@ -18,7 +21,21 @@
 			$this->email    = auth()->user()?->email;
 			$this->birthday = auth()->user()?->birthday?->format("m/d/Y");
 			$this->about    = auth()->user()?->about;
-			$this->avatar   = auth()->user()?->avatar;
+		}
+
+		/**
+		 * Realtime Avatar validation
+		 *
+		 * @return void
+		 */
+		public function updatedNewAvatar ()
+		: void
+		{
+			$this->validate(
+				[
+					'newAvatar' => 'image|max:2048',
+				]
+			);
 		}
 
 		public function save ()
@@ -26,13 +43,15 @@
 		{
 			$profileData = $this->validate(
 				[
-					'name'     => 'required|max:255',
-					'email'    => 'required|email',
-					'birthday' => 'sometimes|nullable|date',
-					'about'    => 'sometimes|nullable',
-					'avatar'   => 'sometimes|nullable|image',
+					'name'      => 'required|max:255',
+					'email'     => 'required|email',
+					'birthday'  => 'sometimes|nullable|date',
+					'about'     => 'sometimes|nullable',
+					'newAvatar' => 'image|max:2048',
 				]
 			);
+
+			$fileName = $this->newAvatar->store('/', 'avatars');
 
 			auth()->user()?->update(
 				[
@@ -40,7 +59,7 @@
 					'email'    => $profileData['email'],
 					'birthday' => $profileData['birthday'],
 					'about'    => $profileData['about'],
-					'avatar'   => $profileData['avatar'],
+					'avatar'   => $fileName,
 				]
 			);
 

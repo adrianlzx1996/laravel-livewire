@@ -26,17 +26,20 @@
 						<x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about"/>
 					</x-input.group>
 
-					<x-input.group label="Photo" for="photo">
+					<x-input.group label="Photo" for="newAvatar" :error="$errors->first('newAvatar')">
 						<div class="flex items-center">
 							<span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
 								<img src="{{ auth()->user()->avatarUrl() }}" alt="Profile Photo">
 							</span>
 
 
-							<button type="button"
-							        class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-								Change
-							</button>
+							<span class="ml-5 rounded-md shadow-sm">
+								<input type="file" wire:model="newAvatar">
+							</span>
+							{{--							<button type="button"--}}
+							{{--							        class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">--}}
+							{{--								Change--}}
+							{{--							</button>--}}
 						</div>
 					</x-input.group>
 
