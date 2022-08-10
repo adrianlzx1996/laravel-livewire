@@ -26,16 +26,16 @@
 						<x-input.rich-text wire:model.lazy="user.about" id="about" :initial-value="$user->about"/>
 					</x-input.group>
 
-					<x-input.group label="Photo" for="upload" :error="$errors->first('user.upload')">
-						{{--						<span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">--}}
-						{{--							@if($upload)--}}
-						{{--								<img src="{{ $upload->temporaryUrl() }}" alt="Avatar"--}}
-						{{--								     class="h-auto w-auto object-cover"/>--}}
-						{{--							@else--}}
-						{{--								<img src="{{ auth()->user()->avatarUrl() }}" alt="Avatar"--}}
-						{{--								     class="h-auto w-auto object-cover"/>--}}
-						{{--							@endif--}}
-						{{--						</span>--}}
+					<x-input.group label="Photo" for="upload" :error="$errors->first('upload')">
+						<div class="h-24 w-24 rounded-full overflow-hidden bg-gray-100">
+							@if($upload)
+								<img src="{{ $upload->temporaryUrl() }}" alt="Avatar"
+								     class="h-full w-full object-cover"/>
+							@else
+								<img src="{{ auth()->user()->avatarUrl() }}" alt="Avatar"
+								     class="h-full w-full object-cover"/>
+							@endif
+						</div>
 						<x-input.filepond wire:model="upload"/>
 
 					</x-input.group>
