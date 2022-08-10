@@ -10,6 +10,7 @@
 		public $email;
 		public $birthday = null;
 		public $about;
+		public $avatar;
 
 		public function mount ()
 		{
@@ -17,6 +18,7 @@
 			$this->email    = auth()->user()?->email;
 			$this->birthday = auth()->user()?->birthday?->format("m/d/Y");
 			$this->about    = auth()->user()?->about;
+			$this->avatar   = auth()->user()?->avatar;
 		}
 
 		public function save ()
@@ -28,6 +30,7 @@
 					'email'    => 'required|email',
 					'birthday' => 'sometimes|nullable|date',
 					'about'    => 'sometimes|nullable',
+					'avatar'   => 'sometimes|nullable|image',
 				]
 			);
 
@@ -37,6 +40,7 @@
 					'email'    => $profileData['email'],
 					'birthday' => $profileData['birthday'],
 					'about'    => $profileData['about'],
+					'avatar'   => $profileData['avatar'],
 				]
 			);
 

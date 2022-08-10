@@ -24,6 +24,7 @@
 				'password',
 				'birthday',
 				'about',
+				'avatar',
 			];
 
 		/**
