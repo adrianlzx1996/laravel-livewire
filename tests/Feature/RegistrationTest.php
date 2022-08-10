@@ -13,6 +13,7 @@
 		use RefreshDatabase;
 
 		public function test_registration_contains_livewire_component ()
+		: void
 		{
 			$this->get('register')
 				 ->assertSeeLivewire('auth.register')
