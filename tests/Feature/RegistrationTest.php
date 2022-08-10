@@ -88,6 +88,25 @@
 		/**
 		 * @return void
 		 */
+		public function test_email_is_unique_as_user_type ()
+		: void
+		{
+			User::create([
+							 'name'     => 'John',
+							 'email'    => 'john@gmail.com',
+							 'password' => Hash::make('123456789'),
+						 ]);
+			Livewire::test('auth.register')
+					->set('email', 'john@gmail.co')
+					->assertHasNoErrors()
+					->set('email', 'john@gmail.com')
+					->assertHasErrors([ 'email' => 'unique' ])
+			;
+		}
+
+		/**
+		 * @return void
+		 */
 		public function test_password_is_required ()
 		: void
 		{

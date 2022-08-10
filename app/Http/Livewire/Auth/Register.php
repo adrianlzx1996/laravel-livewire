@@ -18,6 +18,13 @@
 		public $password             = '';
 		public $passwordConfirmation = '';
 
+		public function updatedEmail ()
+		{
+			$this->validateOnly('email', [
+				'email' => 'required|email|unique:users,email',
+			]);
+		}
+
 		public function register ()
 		: Redirector|Application|RedirectResponse
 		{
