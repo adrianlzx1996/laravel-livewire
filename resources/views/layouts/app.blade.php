@@ -10,6 +10,7 @@
 	<script defer src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
 
 	@stack('styles')
+	<link rel="stylesheet" href="https://unpkg.com/trix@2.0.0-beta.0/dist/trix.css">
 
 	@vite('resources/css/app.css')
 	@livewireStyles
@@ -32,6 +33,6 @@
 @livewireScripts
 
 @stack('scripts')
-
+<script src="https://unpkg.com/trix@2.0.0-beta.0/dist/trix.umd.js"></script>
 </body>
 </html>
