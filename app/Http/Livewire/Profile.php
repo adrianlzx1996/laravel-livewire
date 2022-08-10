@@ -32,6 +32,7 @@
 				]
 			);
 
+			$this->dispatchBrowserEvent('notify', 'Profile saved!');
 		}
 
 		public function render ()
