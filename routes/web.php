@@ -1,6 +1,6 @@
 <?php
 
-	use App\Http\Livewire\Register;
+	use App\Http\Livewire\Auth\Register;
 	use Illuminate\Support\Facades\Route;
 
 	/*
