@@ -9,6 +9,12 @@
 		public $name;
 		public $email;
 
+		public function mount ()
+		{
+			$this->name  = auth()->user()?->name;
+			$this->email = auth()->user()?->email;
+		}
+
 		public function save ()
 		: void
 		{
