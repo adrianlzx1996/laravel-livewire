@@ -16,22 +16,24 @@
 		public $password             = '';
 		public $passwordConfirmation = '';
 
+		protected $rules
+			= [
+				'name'                 => [ 'required', 'string', 'max:255' ],
+				'email'                => [ 'required', 'email', 'unique:users' ],
+				'password'             => [ 'required', 'min:8', 'same:passwordConfirmation' ],
+				'passwordConfirmation' => [ 'required', 'min:8', 'same:password' ],
+			];
+
 		public function updatedEmail ()
 		{
-			$this->validateOnly('email', [
-				'email' => 'required|email|unique:users,email',
-			]);
+			$this->validate([ 'email' => 'unique:users' ]);
 		}
 
 		public function register ()
 		: Redirector|Application|RedirectResponse
 		{
-			$data = $this->validate([
-										'name'                 => [ 'required', 'string', 'max:255' ],
-										'email'                => [ 'required', 'email', 'unique:users' ],
-										'password'             => [ 'required', 'min:8', 'same:passwordConfirmation' ],
-										'passwordConfirmation' => [ 'required', 'min:8', 'same:password' ],
-									]);
+			$data = $this->validate();
+
 			$user = User::create([
 									 'name'     => $data['name'],
 									 'email'    => $data['email'],
