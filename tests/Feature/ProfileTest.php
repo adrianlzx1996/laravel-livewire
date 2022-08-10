@@ -5,6 +5,8 @@
 	use App\Http\Livewire\Profile;
 	use App\Models\User;
 	use Illuminate\Foundation\Testing\RefreshDatabase;
+	use Illuminate\Http\UploadedFile;
+	use Illuminate\Support\Facades\Storage;
 	use Illuminate\Support\Str;
 	use Livewire\Livewire;
 	use Tests\TestCase;
@@ -97,6 +99,23 @@
 					->call('save')
 					->assertHasErrors([ 'email' => 'email' ])
 			;
+		}
+
+		public function test_can_upload_avatar ()
+		: void
+		{
+			$user = User::factory()->create();
+
+			$file = UploadedFile::fake()->image('avatar.png');
+			Storage::fake('avatars');
+			Livewire::actingAs($user)
+					->test(Profile::class)
+					->set('newAvatar', $file)
+					->call('save')
+			;
+
+			$this->assertNotNull($user->avatar);
+			Storage::disk('avatars')->assertExists($user->avatar);
 		}
 
 		public function test_can_update_profile ()
