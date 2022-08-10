@@ -11,6 +11,11 @@
 						<x-input.text wire:model="name" name="name" id="name"/>
 					</x-input.group>
 
+					<x-input.group label="Birthday" for="birthday" :error="$errors->first('birthday')">
+						<x-input.date wire:model="birthday" name="birthday" id="birthday"
+						              placeholder="MM/DD/YYYY"/>
+					</x-input.group>
+
 					<x-input.group label="Email" for="email" :error="$errors->first('email')"
 					               help-text="This is your login email">
 						<x-input.text wire:model="email" id="email" name="email"/>

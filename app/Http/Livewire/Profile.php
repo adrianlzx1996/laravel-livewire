@@ -8,11 +8,13 @@
 	{
 		public $name;
 		public $email;
+		public $birthday = null;
 
 		public function mount ()
 		{
-			$this->name  = auth()->user()?->name;
-			$this->email = auth()->user()?->email;
+			$this->name     = auth()->user()?->name;
+			$this->email    = auth()->user()?->email;
+			$this->birthday = auth()->user()?->birthday?->format("m/d/Y");
 		}
 
 		public function save ()
@@ -20,15 +22,17 @@
 		{
 			$profileData = $this->validate(
 				[
-					'name'  => 'required|max:255',
-					'email' => 'required|email',
+					'name'     => 'required|max:255',
+					'email'    => 'required|email',
+					'birthday' => 'sometimes|nullable|date',
 				]
 			);
 
 			auth()->user()?->update(
 				[
-					'name'  => $profileData['name'],
-					'email' => $profileData['email'],
+					'name'     => $profileData['name'],
+					'email'    => $profileData['email'],
+					'birthday' => $profileData['birthday'],
 				]
 			);
 
