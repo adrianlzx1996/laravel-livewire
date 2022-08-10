@@ -16,6 +16,23 @@
 		/**
 		 * @return void
 		 */
+		public function test_profile_info_is_populated ()
+		: void
+		{
+			$user = User::factory()->make(
+				[ 'name' => 'foo', 'email' => 'bar@bar.com' ]
+			);
+
+			Livewire::actingAs($user)
+					->test('profile')
+					->assertSet('name', 'foo')
+					->assertSet('email', 'bar@bar.com')
+			;
+		}
+
+		/**
+		 * @return void
+		 */
 		public function test_can_see_livewire_profile_component_on_profile_page ()
 		: void
 		{
