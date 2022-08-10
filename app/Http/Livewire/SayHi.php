@@ -8,6 +8,13 @@
 	{
 		public $name;
 
+		protected $listeners = [ 'refreshChildren' => 'refreshMe' ];
+
+		public function refreshMe ( $someVariable )
+		{
+			dd($someVariable);
+		}
+
 		public function mount ( $name )
 		{
 			$this->name = $name;

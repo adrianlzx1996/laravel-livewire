@@ -45,4 +45,9 @@
 		{
 			return view('livewire.hello-world');
 		}
+
+		public function refreshChildren ()
+		{
+			$this->emit('refreshChildren', 'foo');
+		}
 	}
