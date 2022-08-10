@@ -6,12 +6,18 @@
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Register</title>
+
+	<script defer src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
+
 	@vite('resources/css/app.css')
 	@livewireStyles
 </head>
 <body>
 <div class="min-h-full">
-	<x-header/>
+	@auth
+		<x-header/>
+	@endauth
+	<x-notification/>
 	{{--	<x-page.breadcrumb/>--}}
 
 	<x-main>
