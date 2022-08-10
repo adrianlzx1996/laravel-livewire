@@ -2,8 +2,6 @@
 
 	namespace App\Http\Livewire\Auth;
 
-	use Illuminate\Http\RedirectResponse;
-	use Illuminate\Support\MessageBag;
 	use Livewire\Component;
 
 	class Login extends Component
@@ -19,7 +17,6 @@
 			];
 
 		public function login ()
-		: RedirectResponse|MessageBag
 		{
 			$credentials = $this->validate($this->rules);
 
