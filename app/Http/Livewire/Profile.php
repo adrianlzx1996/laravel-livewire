@@ -18,7 +18,7 @@
 				'user.email'    => 'required|email',
 				'user.birthday' => 'sometimes|date',
 				'user.about'    => 'sometimes|max:140',
-				'upload'        => 'image|max:2048',
+				'upload'        => 'sometimes|image|max:2048',
 			];
 
 		public function mount ()
