@@ -14,6 +14,7 @@
 		public $birthday = null;
 		public $about;
 		public $newAvatar;
+		public $files    = [];
 
 		public function mount ()
 		{
