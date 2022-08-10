@@ -5,7 +5,9 @@
 	'type' => 'text'
 ])
 <div>
-	<label for="{{ $value }}" class="block text-sm font-medium text-gray-700"> {{ $label }} </label>
+	@if($label)
+		<label for="{{ $value }}" class="block text-sm font-medium text-gray-700"> {{ $label }} </label>
+	@endif
 	<div class="mt-1 relative rounded-md shadow-sm">
 		<input wire:model.lazy="{{ $value }}" type="{{ $type }}" id="{{ $value }}" name="{{ $value }}"
 		       placeholder="{{ $placeholder }}"
