@@ -11,6 +11,7 @@
 
 	@stack('styles')
 	<link rel="stylesheet" href="https://unpkg.com/trix@2.0.0-beta.0/dist/trix.css">
+	<link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet"/>
 
 	@vite('resources/css/app.css')
 	@livewireStyles
@@ -34,5 +35,6 @@
 
 @stack('scripts')
 <script src="https://unpkg.com/trix@2.0.0-beta.0/dist/trix.umd.js"></script>
+<script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
 </body>
 </html>
