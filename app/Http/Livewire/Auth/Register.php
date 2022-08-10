@@ -4,8 +4,6 @@
 
 	use App\Models\User;
 	use Illuminate\Contracts\Foundation\Application;
-	use Illuminate\Contracts\View\Factory;
-	use Illuminate\Contracts\View\View;
 	use Illuminate\Http\RedirectResponse;
 	use Illuminate\Routing\Redirector;
 	use Illuminate\Support\Facades\Hash;
@@ -45,8 +43,9 @@
 		}
 
 		public function render ()
-		: Factory|View|Application
 		{
-			return view('livewire.auth.register');
+			return view('livewire.auth.register')
+				->layout('layouts.auth')
+			;
 		}
 	}
