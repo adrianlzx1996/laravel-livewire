@@ -1,7 +1,6 @@
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
 	<div class="sm:mx-auto sm:w-full sm:max-w-md">
-		<img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-		     alt="Workflow">
+		<x-icons.app class="mx-auto h-12 w-auto"/>
 	</div>
 
 	<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -26,7 +25,8 @@
 
 			<div class="mt-6">
 				<p class="mt-2 text-center text-sm text-gray-600">
-					<a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Already have an account? </a>
+					<a href="{{ route('auth.login') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+						Already have an account? </a>
 				</p>
 			</div>
 		</div>
