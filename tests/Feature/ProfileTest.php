@@ -27,8 +27,8 @@
 
 			Livewire::actingAs($user)
 					->test('profile')
-					->assertSet('name', 'foo')
-					->assertSet('email', 'bar@bar.com')
+					->assertSet('user.name', 'foo')
+					->assertSet('user.email', 'bar@bar.com')
 			;
 		}
 
@@ -43,6 +43,7 @@
 					->test('profile')
 					->call('save')
 					->assertEmitted('notify-saved')
+					->assertDispatchedBrowserEvent('notify')
 			;
 		}
 
@@ -69,9 +70,9 @@
 
 			Livewire::actingAs($user)
 					->test(Profile::class)
-					->set('name', Str::repeat('a', 257))
+					->set('user.name', Str::repeat('a', 257))
 					->call('save')
-					->assertHasErrors([ 'name' => 'max' ])
+					->assertHasErrors([ 'user.name' => 'max' ])
 			;
 		}
 
@@ -82,9 +83,9 @@
 
 			Livewire::actingAs($user)
 					->test(Profile::class)
-					->set('email', '')
+					->set('user.email', '')
 					->call('save')
-					->assertHasErrors([ 'email' => 'required' ])
+					->assertHasErrors([ 'user.email' => 'required' ])
 			;
 		}
 
@@ -95,9 +96,9 @@
 
 			Livewire::actingAs($user)
 					->test(Profile::class)
-					->set('email', 'aaa')
+					->set('user.email', 'aaa')
 					->call('save')
-					->assertHasErrors([ 'email' => 'email' ])
+					->assertHasErrors([ 'user.email' => 'email' ])
 			;
 		}
 
@@ -110,9 +111,11 @@
 			Storage::fake('avatars');
 			Livewire::actingAs($user)
 					->test(Profile::class)
-					->set('newAvatar', $file)
+					->set('upload', $file)
 					->call('save')
 			;
+
+			$user->refresh();
 
 			$this->assertNotNull($user->avatar);
 			Storage::disk('avatars')->assertExists($user->avatar);
@@ -125,12 +128,10 @@
 
 			Livewire::actingAs($user)
 					->test(Profile::class)
-					->set('name', 'Foo')
-					->set('email', 'bar@bar.com')
+					->set('user.name', 'Foo')
+					->set('user.email', 'bar@bar.com')
 					->call('save')
 			;
-
-			$user->refresh();
 
 			$this->assertEquals('Foo', $user->name);
 			$this->assertEquals('bar@bar.com', $user->email);

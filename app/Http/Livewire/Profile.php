@@ -9,28 +9,22 @@
 	{
 		use WithFileUploads;
 
-		public $name;
-		public $email;
-		public $birthday = null;
-		public $about;
-		public $newAvatar;
-		public $files    = [];
+		public $user;
+		public $upload;
 
 		protected $rules
 			= [
-				'name'      => 'required|max:255',
-				'email'     => 'required|email',
-				'birthday'  => 'sometimes|date',
-				'about'     => 'sometimes|max:140',
-				'newAvatar' => 'image|max:2048',
+				'user.name'     => 'required|max:255',
+				'user.email'    => 'required|email',
+				'user.birthday' => 'sometimes|date',
+				'user.about'    => 'sometimes|max:140',
+				'upload'        => 'image|max:2048',
 			];
 
 		public function mount ()
+		: void
 		{
-			$this->name     = auth()->user()?->name;
-			$this->email    = auth()->user()?->email;
-			$this->birthday = auth()->user()?->birthday?->format("m/d/Y");
-			$this->about    = auth()->user()?->about;
+			$this->user = auth()->user();
 		}
 
 		/**
@@ -43,7 +37,7 @@
 		{
 			$this->validate(
 				[
-					'newAvatar' => 'image|max:2048',
+					'upload' => 'image|max:2048',
 				]
 			);
 		}
@@ -51,25 +45,18 @@
 		public function save ()
 		: void
 		{
-			$profileData = $this->validate();
+			$this->validate();
 
-			auth()->user()?->update(
-				[
-					'name'     => $profileData['name'],
-					'email'    => $profileData['email'],
-					'birthday' => $profileData['birthday'],
-					'about'    => $profileData['about'],
-				]
-			);
+			$this->user->update();
 
-			if ( $this->newAvatar ) {
-				$fileName = $this->newAvatar->store('/', 'avatars');
-				auth()->user()?->update([
-											'avatar' => $fileName,
-										]);
-			}
+			$this->upload
+			&& $this->user->update([
+									   'avatar' => $this->upload->store('/', 'avatars'),
+								   ]);
 
 			$this->emitSelf('notify-saved');
+
+			$this->dispatchBrowserEvent('notify', 'Profile saved!');
 		}
 
 	}

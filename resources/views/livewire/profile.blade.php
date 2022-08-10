@@ -7,37 +7,36 @@
 			<div>
 				<div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
 
-					<x-input.group label="Name" for="name" :error="$errors->first('name')">
-						<x-input.text wire:model="name" name="name" id="name"/>
+					<x-input.group label="Name" for="name" :error="$errors->first('user.name')">
+						<x-input.text wire:model="user.name" name="name" id="name"/>
 					</x-input.group>
 
-					<x-input.group label="Birthday" for="birthday" :error="$errors->first('birthday')">
-						<x-input.date wire:model="birthday" name="birthday" id="birthday"
+					<x-input.group label="Birthday" for="birthday" :error="$errors->first('user.birthday')">
+						<x-input.date wire:model="user.birthday" name="birthday" id="birthday"
 						              placeholder="MM/DD/YYYY"/>
 					</x-input.group>
 
-					<x-input.group label="Email" for="email" :error="$errors->first('email')"
+					<x-input.group label="Email" for="email" :error="$errors->first('user.email')"
 					               help-text="This is your login email">
-						<x-input.text wire:model="email" id="email" name="email"/>
+						<x-input.text wire:model="user.email" id="email" name="email"/>
 					</x-input.group>
 
-					<x-input.group label="About" for="about" :error="$errors->first('about')"
+					<x-input.group label="About" for="about" :error="$errors->first('user.about')"
 					               help-text="Write a few sentences about yourself">
-						<x-input.rich-text wire:model.lazy="about" id="about" :initial-value="$about"/>
+						<x-input.rich-text wire:model.lazy="user.about" id="about" :initial-value="$user->about"/>
 					</x-input.group>
 
-					<x-input.group label="Photo" for="newAvatar" :error="$errors->first('newAvatar')">
+					<x-input.group label="Photo" for="upload" :error="$errors->first('user.upload')">
 						{{--						<span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">--}}
-						{{--							@if($newAvatar)--}}
-						{{--								<img src="{{ $newAvatar->temporaryUrl() }}" alt="Avatar"--}}
+						{{--							@if($upload)--}}
+						{{--								<img src="{{ $upload->temporaryUrl() }}" alt="Avatar"--}}
 						{{--								     class="h-auto w-auto object-cover"/>--}}
 						{{--							@else--}}
 						{{--								<img src="{{ auth()->user()->avatarUrl() }}" alt="Avatar"--}}
 						{{--								     class="h-auto w-auto object-cover"/>--}}
 						{{--							@endif--}}
 						{{--						</span>--}}
-						<x-input.filepond wire:model="newAvatar"/>
-						<x-input.filepond wire:model="files" multiple/>
+						<x-input.filepond wire:model="upload"/>
 
 					</x-input.group>
 
