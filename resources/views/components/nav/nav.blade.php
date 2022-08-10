@@ -49,56 +49,148 @@
 </div>
 
 <!-- Actions section -->
-<div class="hidden lg:block lg:ml-4">
-	<div class="flex items-center">
+<div class="hidden lg:block">
+	<div class="flex items-center space-x-2">
 		<button type="button"
 		        class="bg-gray-50 flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-purple-500">
 			<span class="sr-only">View notifications</span>
-			<!-- Heroicon name: outline/bell -->
-			<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-			     stroke="currentColor" aria-hidden="true">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-				      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-			</svg>
+			<x-icons.notification/>
 		</button>
 
 		<!-- Profile dropdown -->
-		<div class="ml-3 relative flex-shrink-0">
+		<div x-data="dropdown"
+		     @keydown.escape.stop="open = false; focusButton()" @click.away="onClickAway($event)"
+		     class="relative flex-shrink-0">
 			<div>
 				<button type="button"
-				        class="bg-gray-50 rounded-full flex text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-purple-500"
-				        id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+				        class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
+				        id="user-menu-button" x-ref="button" @click="onButtonClick()"
+				        @keyup.space.prevent="onButtonEnter()" @keydown.enter.prevent="onButtonEnter()"
+				        aria-expanded="false" aria-haspopup="true" x-bind:aria-expanded="open.toString()"
+				        @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()">
 					<span class="sr-only">Open user menu</span>
-					<img class="rounded-full h-8 w-8"
-					     src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+					<img class="h-8 w-8 rounded-full"
+					     src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
 					     alt="">
 				</button>
 			</div>
 
-			<!--
-			  Dropdown menu, show/hide based on menu state.
+			<div x-show="open" x-transition:leave="transition ease-in duration-75"
+			     x-transition:leave-start="transform opacity-100 scale-100"
+			     x-transition:leave-end="transform opacity-0 scale-95"
+			     class="origin-top-right z-40 absolute -right-2 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+			     x-ref="menu-items" x-description="Dropdown menu, show/hide based on menu state."
+			     x-bind:aria-activedescendant="activeDescendant" role="menu" aria-orientation="vertical"
+			     aria-labelledby="user-menu-button" tabindex="-1" @keydown.arrow-up.prevent="onArrowUp()"
+			     @keydown.arrow-down.prevent="onArrowDown()" @keydown.tab="open = false"
+			     @keydown.enter.prevent="open = false; focusButton()" @keyup.space.prevent="open = false; focusButton()"
+			     style="display: none;">
 
-			  Entering: "transition ease-out duration-100"
-				From: "transform opacity-0 scale-95"
-				To: "transform opacity-100 scale-100"
-			  Leaving: "transition ease-in duration-75"
-				From: "transform opacity-100 scale-100"
-				To: "transform opacity-0 scale-95"
-			-->
-			<div
-				class="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-				role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button"
-				tabindex="-1">
-				<!-- Active: "bg-gray-100", Not Active: "" -->
-				<a href="/profile" class="block py-2 px-4 text-sm text-gray-700" role="menuitem" tabindex="-1"
-				   id="user-menu-item-0"> Your Profile </a>
+				<a href="{{ route('profile') }}"
+				   class="block px-4 py-2 text-sm text-gray-700 @if(Route::is('profile')) bg-gray-50 @endif"
+				   x-state:on="Active"
+				   x-state:off="Not Active"
+				   :class="{ 'bg-gray-100': activeIndex === 0 }" role="menuitem" tabindex="-1" id="user-menu-item-0"
+				   @mouseenter="activeIndex = 0" @mouseleave="activeIndex = -1" @click="open = false; focusButton()">Your
+					Profile</a>
 
-				<a href="/settings" class="block py-2 px-4 text-sm text-gray-700" role="menuitem" tabindex="-1"
-				   id="user-menu-item-1"> Settings </a>
+				<a href="#" class="block px-4 py-2 text-sm text-gray-700" :class="{ 'bg-gray-100': activeIndex === 1 }"
+				   role="menuitem" tabindex="-1" id="user-menu-item-1" @mouseenter="activeIndex = 1"
+				   @mouseleave="activeIndex = -1" @click="open = false; focusButton()">Settings</a>
 
-				<a href="/signout" class="block py-2 px-4 text-sm text-gray-700" role="menuitem" tabindex="-1"
-				   id="user-menu-item-2"> Sign out </a>
+				<a href="#" class="block px-4 py-2 text-sm text-gray-700" :class="{ 'bg-gray-100': activeIndex === 2 }"
+				   role="menuitem" tabindex="-1" id="user-menu-item-2" @mouseenter="activeIndex = 2"
+				   @mouseleave="activeIndex = -1" @click="open = false; focusButton()">Sign out</a>
+
 			</div>
+
 		</div>
+
 	</div>
 </div>
+
+<script>
+	function dropdown(e = {open: !1}) {
+
+		return {
+			init() {
+				(this.items = Array.from(
+					this.$el.querySelectorAll('[role="menuitem"]')
+				)),
+					this.$watch("open", () => {
+						this.open && (this.activeIndex = -1);
+					});
+			},
+			activeDescendant: null,
+			activeIndex: null,
+			items: null,
+			open: e.open,
+			focusButton() {
+				this.$refs.button.focus();
+			},
+			onButtonClick() {
+				(this.open = !this.open),
+				this.open &&
+				this.$nextTick(() => {
+					this.$refs["menu-items"].focus();
+				});
+			},
+			onButtonEnter() {
+				(this.open = !this.open),
+				this.open &&
+				((this.activeIndex = 0),
+					(this.activeDescendant =
+						this.items[this.activeIndex].id),
+					this.$nextTick(() => {
+						this.$refs["menu-items"].focus();
+					}));
+			},
+			onArrowUp() {
+				if (!this.open)
+					return (
+						(this.open = !0),
+							(this.activeIndex = this.items.length - 1),
+							void (this.activeDescendant =
+								this.items[this.activeIndex].id)
+					);
+				0 !== this.activeIndex &&
+				((this.activeIndex =
+					-1 === this.activeIndex
+						? this.items.length - 1
+						: this.activeIndex - 1),
+					(this.activeDescendant = this.items[this.activeIndex].id));
+			},
+			onArrowDown() {
+				if (!this.open)
+					return (
+						(this.open = !0),
+							(this.activeIndex = 0),
+							void (this.activeDescendant =
+								this.items[this.activeIndex].id)
+					);
+				this.activeIndex !== this.items.length - 1 &&
+				((this.activeIndex = this.activeIndex + 1),
+					(this.activeDescendant = this.items[this.activeIndex].id));
+			},
+			onClickAway(e) {
+				if (this.open) {
+					const t = [
+						"[contentEditable=true]",
+						"[tabindex]",
+						"a[href]",
+						"area[href]",
+						"button:not([disabled])",
+						"iframe",
+						"input:not([disabled])",
+						"select:not([disabled])",
+						"textarea:not([disabled])",
+					]
+						.map((e) => `${e}:not([tabindex='-1'])`)
+						.join(",");
+					(this.open = !1), e.target.closest(t) || this.focusButton();
+				}
+			},
+		};
+
+	}
+</script>
