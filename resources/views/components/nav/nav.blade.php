@@ -2,17 +2,18 @@
 <div class="hidden lg:block lg:ml-10">
 	<div class="flex space-x-4">
 		<!-- Current: "bg-gray-100", Default: "hover:text-gray-700" -->
-		<a href="#" class="bg-gray-100 px-3 py-2 rounded-md text-sm font-medium text-gray-900"
+		<a href="{{ route('dashboard') }}"
+		   class="{{ Route::is('dashboard') ? 'bg-gray-100' : 'hover:bg-gray-100' }} px-3 py-2 rounded-md text-sm font-medium text-gray-900"
 		   aria-current="page">Dashboard</a>
 
 		<a href="#"
-		   class="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Jobs</a>
+		   class="hover:bg-gray-100 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Jobs</a>
 
 		<a href="#"
-		   class="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Applicants</a>
+		   class="hover:bg-gray-100 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Applicants</a>
 
 		<a href="#"
-		   class="hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Company</a>
+		   class="hover:bg-gray-100 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium text-gray-900">Company</a>
 	</div>
 </div>
 
@@ -21,7 +22,7 @@
 </div>
 <div class="flex lg:hidden">
 	<!-- Mobile menu button -->
-	<button type="button"
+	<button @click="openMobile = !openMobile" type="button"
 	        class="bg-gray-50 p-2 inline-flex items-center justify-center rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-purple-500"
 	        aria-controls="mobile-menu" aria-expanded="false">
 		<span class="sr-only">Open main menu</span>

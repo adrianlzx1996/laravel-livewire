@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="bg-gray-50">
+<nav class="bg-gray-50" x-data="{ openMobile: false }">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 		<div class="relative h-16 flex items-center justify-between border-b border-gray-200">
 			<div class="flex-shrink-0">
