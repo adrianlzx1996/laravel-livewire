@@ -19,4 +19,9 @@
 					   'failed'  => 'red',
 				   ][$this->status] ?? 'slate';
 		}
+
+		public function getDateForHumansAttribute ()
+		{
+			return $this->date->format('M d, Y');
+		}
 	}

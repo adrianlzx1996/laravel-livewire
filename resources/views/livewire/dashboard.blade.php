@@ -20,8 +20,8 @@
 							</span>
 						</x-table.cell>
 
-						<x-table.cell class="text-gray-500">
-							<span class="text-gray-900 font-medium">
+						<x-table.cell class="text-slate-500">
+							<span class="text-slate-900 font-medium">
 								${{ $transaction->amount }}
 							</span>
 							USD
@@ -36,7 +36,7 @@
 
 						<x-table.cell>
 							<time datetime="{{ $transaction->date }}">
-								{{ $transaction->date->format('M d, Y') }}
+								{{ $transaction->date_for_humans }}
 							</time>
 						</x-table.cell>
 					</x-table.row>
