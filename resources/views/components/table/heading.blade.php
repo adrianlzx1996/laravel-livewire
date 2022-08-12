@@ -3,7 +3,7 @@
 	'direction' => null,
 ])
 
-<th {{ $attributes->class('px-6 py-3 bg-gray-50') }}>
+<th {{ $attributes->merge(['class'=>'px-6 py-3 bg-gray-50'])->only('class') }}>
 
 	@unless($sortable)
 		<span
