@@ -3,14 +3,14 @@
 	'direction' => null,
 ])
 
-<th {{ $attributes->class('px-6 py-3 bg-cool-gray-50') }}>
+<th {{ $attributes->class('px-6 py-3 bg-gray-50') }}>
 
 	@unless($sortable)
 		<span
 			class="text-left text-xs leading-4 font-medium text-cool-gray-500 uppercase tracking-wider">{{ $slot }}</span>
 	@else
 		<button
-			class="flex items-center space-x-1 text-left text-xs leading-4 font-medium group" {{ $attributes->except('class') }}>
+			class="flex items-center space-x-1 text-left text-xs leading-4 font-medium group uppercase" {{ $attributes->except('class') }}>
 			<span>{{ $slot }}</span>
 
 			<span>
