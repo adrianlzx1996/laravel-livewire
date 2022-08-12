@@ -17,6 +17,8 @@
 		public $sortField     = 'title';
 		public $sortDirection = 'asc';
 
+		protected $queryString = [ 'sortField', 'sortDirection' ];
+
 		public function sortBy ( $field )
 		: void {
 			if ( $this->sortField === $field ) {
