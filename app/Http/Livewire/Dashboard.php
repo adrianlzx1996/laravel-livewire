@@ -53,13 +53,28 @@
 
 		public function mount ()
 		{
+			$this->editing = $this->makeBlankTransaction();
 
-			$this->editing = Transaction::make([ 'date' => now() ]);
+		}
+
+		public function makeBlankTransaction ()
+		{
+			return Transaction::make([ 'date' => now(), 'status' => 'new' ]);
+		}
+
+		public function create ()
+		{
+			if ( $this->editing->getKey() ) {
+				$this->editing = $this->makeBlankTransaction();
+			}
+			$this->showEditModal = true;
 		}
 
 		public function edit ( Transaction $transaction )
 		: void {
-			$this->editing = $transaction;
+			if ( $this->editing->isNot($transaction) ) {
+				$this->editing = $transaction;
+			}
 
 			$this->showEditModal = true;
 		}
