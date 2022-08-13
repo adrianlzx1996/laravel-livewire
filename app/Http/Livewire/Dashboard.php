@@ -14,12 +14,15 @@
 	{
 		use WithPagination;
 
-		public             $sortField     = 'title';
-		public             $sortDirection = 'asc';
-		public             $showEditModal = false;
-		public             $showFilters   = false;
-		public             $filters
-										  = [
+		public Transaction $editing;
+
+		public $sortField     = 'title';
+		public $sortDirection = 'asc';
+		public $showEditModal = false;
+		public $showFilters   = false;
+		public $selected      = [];
+		public $filters
+							  = [
 				'search'     => '',
 				'status'     => '',
 				'amount-min' => null,
@@ -27,7 +30,6 @@
 				'date-min'   => null,
 				'date-max'   => null,
 			];
-		public Transaction $editing;
 
 		protected $queryString = [ 'sortField', 'sortDirection' ];
 		protected $guarded     = [];
@@ -118,5 +120,21 @@
 		{
 			$this->reset('filters');
 			$this->reset('search');
+		}
+
+		public function exportSelected ()
+		{
+			return response()->streamDownload(function () {
+				echo Transaction::whereKey($this->selected)->toCsv();
+			}, "transactions-" . now() . ".csv");
+		}
+
+		public function deleteSelected ()
+		{
+			$transactions = Transaction::whereKey($this->selected);
+
+			$transactions->delete();
+
+			$this->dispatchBrowserEvent('notify', 'Deleted Transactions');
 		}
 	}

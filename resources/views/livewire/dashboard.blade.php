@@ -14,7 +14,15 @@
 				</x-button>
 			</div>
 
-			<div>
+			<div class="flex space-x-2">
+				<x-dropdown label="Bulk Actions">
+					<x-dropdown.item type="button" class="flex items-center space-x-2" wire:click="exportSelected">
+						<span>Export</span>
+					</x-dropdown.item>
+					<x-dropdown.item type="button" class="flex items-center space-x-2" wire:click="deleteSelected">
+						<span>Delete</span>
+					</x-dropdown.item>
+				</x-dropdown>
 				<x-button wire:click="create">+ New</x-button>
 			</div>
 		</div>
@@ -62,6 +70,9 @@
 		<div class="flex-col space-y-4">
 			<x-table>
 				<x-slot name="head">
+					<x-table.heading class="pr-0 w-8">
+						<input type="checkbox">
+					</x-table.heading>
 					<x-table.heading sortable wire:click="sortBy('title')"
 					                 class="w-full"
 					                 :direction="$sortField === 'title' ? $sortDirection : null">Title
@@ -80,7 +91,10 @@
 
 				<x-slot name="body">
 					@forelse($transactions as $transaction)
-						<x-table.row wire:loading.class.delay="opacity-50">
+						<x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $transaction->id }}">
+							<x-table.cell class="pr-0">
+								<input type="checkbox" wire:model="selected" value="{{ $transaction->id }}"/>
+							</x-table.cell>
 							<x-table.cell>
 							<span class="inline-flex space-x-2 truncate text-sm">
 								<x-icons.cash/>
@@ -114,7 +128,7 @@
 						</x-table.row>
 					@empty
 						<x-table.row wire:loading.class.delay="opacity-50">
-							<x-table.cell colspan="5">
+							<x-table.cell colspan="6">
 								<div class="flex justify-center items-center space-x-2">
 									<x-icons.inbox class="text-slate-400"/>
 									<span class="py-8 text-slate-400 text-xl font-medium">
