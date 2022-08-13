@@ -3,13 +3,60 @@
 
 	<div class="py-4 space-y-4">
 		<div class="flex justify-between">
-			<div class="w-1/4">
-				<x-input.text wire:model.debounce="search" placeholder="Search Transactions..."/>
+			<div class="w-2/4 flex space-x-4">
+				<x-input.text wire:model.debounce="filters.search" placeholder="Search Transactions..."/>
+
+				<x-button wire:click="$toggle('showFilters')">
+					@if($showFilters)
+						Hide
+					@endif
+					Advanced Search...
+				</x-button>
 			</div>
 
 			<div>
 				<x-button wire:click="create">+ New</x-button>
 			</div>
+		</div>
+
+		<div>
+			@if($showFilters)
+				<div class="bg-gray-200 p-4 rounded shadow-inner flex relative">
+					<div class="w-1/2 pl-2 space-y-4">
+						<x-input.group inline for="filter-status" label="Status">
+							<select wire:model.lazy="filters.status" id="filter-status">
+								<option value="" disabled>Select status...</option>
+								@foreach(\App\Models\Transaction::STATUSES as $status)
+									<option value="{{ $status }}">{{ $status }}</option>
+								@endforeach
+							</select>
+						</x-input.group>
+
+						<x-input.group inline for="filter-amount-min" label="Minimum Amount">
+							<x-input.text wire:model.lazy="filters.amount-min" id="filter-amount-min"/>
+						</x-input.group>
+
+						<x-input.group inline for="filter-amount-max" label="Maximum Amount">
+							<x-input.text wire:model.lazy="filters.amount-max" id="filter-amount-max"/>
+						</x-input.group>
+					</div>
+
+					<div class="w-1/2 pl-2 space-y-4">
+						<x-input.group inline for="filter-date-min" label="Minimum Date">
+							<x-input.date wire:model.lazy="filters.date-min" id="filter-date-min"
+							              placeholder="MM/DD/YYYY"/>
+						</x-input.group>
+
+						<x-input.group inline for="filter-date-max" label="Maximum Date">
+							<x-input.date wire:model.lazy="filters.date-max" id="filter-date-max"
+							              placeholder="MM/DD/YYYY"/>
+						</x-input.group>
+
+						<x-button wire:click="resetFilters" class="absolute right-0 bottom-0 p-4">Reset Filters
+						</x-button>
+					</div>
+				</div>
+			@endif
 		</div>
 
 		<div class="flex-col space-y-4">
@@ -67,7 +114,7 @@
 						</x-table.row>
 					@empty
 						<x-table.row wire:loading.class.delay="opacity-50">
-							<x-table.cell colspan="4">
+							<x-table.cell colspan="5">
 								<div class="flex justify-center items-center space-x-2">
 									<x-icons.inbox class="text-slate-400"/>
 									<span class="py-8 text-slate-400 text-xl font-medium">
