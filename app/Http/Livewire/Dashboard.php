@@ -32,7 +32,7 @@
 				'date-max'   => null,
 			];
 
-		protected $queryString = [ 'sortField', 'sortDirection' ];
+		protected $queryString = [];
 		protected $guarded     = [];
 
 		public function rules ()
@@ -43,17 +43,6 @@
 				'editing.status' => [ 'required', 'in:' . collect(Transaction::STATUSES)->keys()->implode(',') ],
 				'editing.date'   => [ 'required' ],
 			];
-		}
-
-		public function sortBy ( $field )
-		: void {
-			if ( $this->sortField === $field ) {
-				$this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-			}
-			else {
-				$this->sortField     = $field;
-				$this->sortDirection = 'asc';
-			}
 		}
 
 		public function getRowsQueryProperty ()
@@ -67,9 +56,7 @@
 								->when($this->filters['date-max'], fn ( $query, $date ) => $query->where('date', '<=', Carbon::parse($date)))
 			;
 
-			return $this->applySorting($query)
-						->orderBy($this->sortField, $this->sortDirection)
-			;
+			return $this->applySorting($query);
 		}
 
 		public function getRowsProperty ()
