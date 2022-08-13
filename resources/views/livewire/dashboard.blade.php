@@ -2,9 +2,13 @@
 	<h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
 
 	<div class="py-4 space-y-4">
-		<div>
+		<div class="flex justify-between">
 			<div class="w-1/4">
 				<x-input.text wire:model.debounce="search" placeholder="Search Transactions..."/>
+			</div>
+
+			<div>
+				<x-button wire:click="create">+ New</x-button>
 			</div>
 		</div>
 
@@ -12,6 +16,7 @@
 			<x-table>
 				<x-slot name="head">
 					<x-table.heading sortable wire:click="sortBy('title')"
+					                 class="w-full"
 					                 :direction="$sortField === 'title' ? $sortDirection : null">Title
 					</x-table.heading>
 					<x-table.heading sortable wire:click="sortBy('amount')"
@@ -86,7 +91,7 @@
 			<x-slot name="title">Edit Transaction</x-slot>
 			<x-slot name="content">
 				<x-input.group for="title" label="Title" :error="$errors->first('editing.title')">
-					<x-input.text wire:model.defer="editing.title" id="title"/>
+					<x-input.text wire:model.defer="editing.title" id="title" placeholder="e.g. Groceries"/>
 				</x-input.group>
 
 				<x-input.group for="amount" label="Amount" :error="$errors->first('editing.amount')">
