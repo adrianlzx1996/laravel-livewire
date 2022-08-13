@@ -2,6 +2,8 @@
 
 	namespace App\Http\Livewire;
 
+	use App\Http\Livewire\DataTable\WithBulkActions;
+	use App\Http\Livewire\DataTable\WithSorting;
 	use App\Models\Transaction;
 	use Carbon\Carbon;
 	use Illuminate\Contracts\Foundation\Application;
@@ -12,20 +14,16 @@
 
 	class Dashboard extends Component
 	{
-		use WithPagination;
+		use WithPagination, WithSorting, WithBulkActions;
 
 		public Transaction $editing;
 
-		public $sortField       = 'title';
-		public $sortDirection   = 'asc';
 		public $showDeleteModal = false;
 		public $showEditModal   = false;
 		public $showFilters     = false;
-		public $selectedAll     = false;
-		public $selectPage      = [];
-		public $selected        = [];
+
 		public $filters
-								= [
+			= [
 				'search'     => '',
 				'status'     => '',
 				'amount-min' => null,
@@ -58,33 +56,33 @@
 			}
 		}
 
-		public function getTransactionsQueryProperty ()
+		public function getRowsQueryProperty ()
 		{
-			return Transaction::query()
-							  ->when($this->filters['search'], fn ( $query, $search ) => $query->where('title', 'like', '%' . $search . '%'))
-							  ->when($this->filters['status'], fn ( $query, $status ) => $query->where('status', $status))
-							  ->when($this->filters['amount-min'], fn ( $query, $amount ) => $query->where('amount', '>=', $amount))
-							  ->when($this->filters['amount-max'], fn ( $query, $amount ) => $query->where('amount', '<=', $amount))
-							  ->when($this->filters['date-min'], fn ( $query, $date ) => $query->where('date', '>=', Carbon::parse($date)))
-							  ->when($this->filters['date-max'], fn ( $query, $date ) => $query->where('date', '<=', Carbon::parse($date)))
-							  ->orderBy($this->sortField, $this->sortDirection)
+			$query = Transaction::query()
+								->when($this->filters['search'], fn ( $query, $search ) => $query->where('title', 'like', '%' . $search . '%'))
+								->when($this->filters['status'], fn ( $query, $status ) => $query->where('status', $status))
+								->when($this->filters['amount-min'], fn ( $query, $amount ) => $query->where('amount', '>=', $amount))
+								->when($this->filters['amount-max'], fn ( $query, $amount ) => $query->where('amount', '<=', $amount))
+								->when($this->filters['date-min'], fn ( $query, $date ) => $query->where('date', '>=', Carbon::parse($date)))
+								->when($this->filters['date-max'], fn ( $query, $date ) => $query->where('date', '<=', Carbon::parse($date)))
+			;
+
+			return $this->applySorting($query)
+						->orderBy($this->sortField, $this->sortDirection)
 			;
 		}
 
-		public function getTransactionsProperty ()
+		public function getRowsProperty ()
 		{
-			return $this->transactionsQuery->paginate(10);
+			return $this->rowsQuery->paginate(10);
 		}
 
 		public function render ()
 		: Factory|View|Application
 		{
-			if ( $this->selectedAll ) {
-				$this->selected = $this->transactions->pluck('id')->toArray();
-			}
 
 			return view('livewire.dashboard', [
-				'transactions' => $this->transactions,
+				'transactions' => $this->rows,
 			]);
 		}
 
@@ -99,18 +97,6 @@
 			$this->resetPage();
 		}
 
-		public function updatedSelected ()
-		{
-			$this->selectedAll = false;
-			$this->selectPage  = [];
-		}
-
-		public function updatedSelectPage ( $value )
-		{
-			$this->selected = $value
-				? $this->transactions->pluck('id')->map(fn ( $id ) => (string)$id)
-				: [];
-		}
 
 		public function makeBlankTransaction ()
 		{
@@ -146,11 +132,6 @@
 			$this->dispatchBrowserEvent('notify', 'Updated Transaction');
 		}
 
-		public function selectAll ()
-		{
-			$this->selectedAll = true;
-		}
-
 		public function resetFilters ()
 		{
 			$this->reset('filters');
@@ -159,8 +140,7 @@
 		public function exportSelected ()
 		{
 			return response()->streamDownload(function () {
-				echo $this->transactionsQuery
-					->unless($this->selectedAll, fn ( $query ) => $query->whereKey($this->selected))
+				$this->getSelectedRowsQuery
 					->toCsv()
 				;
 			}, "transactions-" . now() . ".csv");
@@ -168,8 +148,7 @@
 
 		public function deleteSelected ()
 		{
-			( clone $this->transactionsQuery )
-				->unless($this->selectedAll, fn ( $query ) => $query->whereKey($this->selected))
+			$this->getSelectedRowsQuery
 				->delete()
 			;
 
