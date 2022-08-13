@@ -71,7 +71,7 @@
 			<x-table>
 				<x-slot name="head">
 					<x-table.heading class="pr-0 w-8">
-						<input type="checkbox">
+						<input type="checkbox" wire:model="selectPage"/>
 					</x-table.heading>
 					<x-table.heading sortable wire:click="sortBy('title')"
 					                 class="w-full"
@@ -90,6 +90,23 @@
 				</x-slot>
 
 				<x-slot name="body">
+
+					@if($selectPage)
+						<x-table.row class="bg-slate-400" wire:key="row-message">
+							<x-table.cell colspan="6">
+								@unless($selectedAll)
+									<div>
+										<span>You selected <strong>{{ $transactions->count() }}</strong> transactions, do you want to select all
+											<strong>{{ $transactions->total() }}</strong> transactions?</span>
+										<button wire:click="selectAll" class="text-blue-600">Select All</button>
+									</div>
+								@else
+									<span>You are currently selecting all <strong>{{ $transactions->total() }}</strong> transactions.</span>
+								@endif
+							</x-table.cell>
+						</x-table.row>
+					@endif
+
 					@forelse($transactions as $transaction)
 						<x-table.row wire:loading.class.delay="opacity-50" wire:key="row-{{ $transaction->id }}">
 							<x-table.cell class="pr-0">
