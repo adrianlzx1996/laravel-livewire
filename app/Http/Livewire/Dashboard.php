@@ -16,15 +16,16 @@
 
 		public Transaction $editing;
 
-		public $sortField     = 'title';
-		public $sortDirection = 'asc';
-		public $showEditModal = false;
-		public $showFilters   = false;
-		public $selectedAll   = false;
-		public $selectPage    = [];
-		public $selected      = [];
+		public $sortField       = 'title';
+		public $sortDirection   = 'asc';
+		public $showDeleteModal = false;
+		public $showEditModal   = false;
+		public $showFilters     = false;
+		public $selectedAll     = false;
+		public $selectPage      = [];
+		public $selected        = [];
 		public $filters
-							  = [
+								= [
 				'search'     => '',
 				'status'     => '',
 				'amount-min' => null,
@@ -167,11 +168,17 @@
 
 		public function deleteSelected ()
 		{
-			$this->transactionsQuery
+			( clone $this->transactionsQuery )
 				->unless($this->selectedAll, fn ( $query ) => $query->whereKey($this->selected))
 				->delete()
 			;
 
+			$this->showDeleteModal = false;
+
 			$this->dispatchBrowserEvent('notify', 'Deleted Transactions');
+			$this->reset('selected');
+			$this->reset('selectedAll');
+			$this->reset('selectPage');
+
 		}
 	}

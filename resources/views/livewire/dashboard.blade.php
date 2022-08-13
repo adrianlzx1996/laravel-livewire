@@ -19,7 +19,8 @@
 					<x-dropdown.item type="button" class="flex items-center space-x-2" wire:click="exportSelected">
 						<span>Export</span>
 					</x-dropdown.item>
-					<x-dropdown.item type="button" class="flex items-center space-x-2" wire:click="deleteSelected">
+					<x-dropdown.item type="button" class="flex items-center space-x-2"
+					                 wire:click="$toggle('showDeleteModal')">
 						<span>Delete</span>
 					</x-dropdown.item>
 				</x-dropdown>
@@ -154,7 +155,7 @@
 								</div>
 							</x-table.cell>
 						</x-table.row>
-					@endforelse
+						@endforelse
 				</x-slot>
 			</x-table>
 
@@ -164,9 +165,25 @@
 		</div>
 	</div>
 
+	<form wire:submit.prevent="deleteSelected">
+		@method('DELETE')
+		<x-modal.confirmation wire:model.defer="showDeleteModal">
+			<x-slot name="title">Delete Transactions</x-slot>
+
+			<x-slot name="content">Are you sure you want to delete these transactions? This action is irreversible.
+			</x-slot>
+
+			<x-slot name="footer">
+				<x-button type="button" wire:click="$set('showDeleteModal', false)">Cancel</x-button>
+				<x-button type="submit" class="bg-red-600 text-white">Delete</x-button>
+			</x-slot>
+		</x-modal.confirmation>
+	</form>
+
 	<form wire:submit.prevent="save">
 		<x-modal.dialog wire:model.defer="showEditModal">
 			<x-slot name="title">Edit Transaction</x-slot>
+
 			<x-slot name="content">
 				<x-input.group for="title" label="Title" :error="$errors->first('editing.title')">
 					<x-input.text wire:model.defer="editing.title" id="title" placeholder="e.g. Groceries"/>
@@ -188,6 +205,7 @@
 					<x-input.date wire:model.defer="editing.date" id="editing_date"/>
 				</x-input.group>
 			</x-slot>
+
 			<x-slot name="footer">
 				<x-button
 					wire:click="$emit('showEditModal', false)"
