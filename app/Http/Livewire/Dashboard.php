@@ -13,11 +13,24 @@
 	{
 		use WithPagination;
 
-		public $search        = '';
-		public $sortField     = 'title';
-		public $sortDirection = 'asc';
+		public             $search        = '';
+		public             $sortField     = 'title';
+		public             $sortDirection = 'asc';
+		public             $showEditModal = false;
+		public Transaction $editing;
 
 		protected $queryString = [ 'sortField', 'sortDirection' ];
+		protected $guarded     = [];
+
+		public function rules ()
+		{
+			return [
+				'editing.title'  => [ 'required', 'string' ],
+				'editing.amount' => [ 'required', 'integer' ],
+				'editing.status' => [ 'required', 'in:' . collect(Transaction::STATUSES)->keys()->implode(',') ],
+				'editing.date'   => [ 'required' ],
+			];
+		}
 
 		public function sortBy ( $field )
 		: void {
@@ -36,5 +49,30 @@
 			return view('livewire.dashboard', [
 				'transactions' => Transaction::search('title', $this->search)->orderBy($this->sortField, $this->sortDirection)->paginate(10),
 			]);
+		}
+
+		public function mount ()
+		{
+
+			$this->editing = Transaction::make([ 'date' => now() ]);
+		}
+
+		public function edit ( Transaction $transaction )
+		: void {
+			$this->editing = $transaction;
+
+			$this->showEditModal = true;
+		}
+
+		public function save ()
+		: void
+		{
+			$this->validate();
+
+			$this->editing->save();
+
+			$this->showEditModal = false;
+
+			$this->dispatchBrowserEvent('notify', 'Updated Transaction');
 		}
 	}

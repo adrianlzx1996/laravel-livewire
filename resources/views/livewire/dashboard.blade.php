@@ -23,6 +23,7 @@
 					<x-table.heading sortable wire:click="sortBy('date')"
 					                 :direction="$sortField === 'date' ? $sortDirection : null">Date
 					</x-table.heading>
+					<x-table.heading/>
 				</x-slot>
 
 				<x-slot name="body">
@@ -54,6 +55,10 @@
 									{{ $transaction->date_for_humans }}
 								</time>
 							</x-table.cell>
+
+							<x-table.cell>
+								<x-button wire:click="edit({{ $transaction->id }})">Edit</x-button>
+							</x-table.cell>
 						</x-table.row>
 					@empty
 						<x-table.row wire:loading.class.delay="opacity-50">
@@ -75,4 +80,39 @@
 			</div>
 		</div>
 	</div>
+
+	<form wire:submit.prevent="save">
+		<x-modal.dialog wire:model.defer="showEditModal">
+			<x-slot name="title">Edit Transaction</x-slot>
+			<x-slot name="content">
+				<x-input.group for="title" label="Title" :error="$errors->first('editing.title')">
+					<x-input.text wire:model.defer="editing.title" id="title"/>
+				</x-input.group>
+
+				<x-input.group for="amount" label="Amount" :error="$errors->first('editing.amount')">
+					<x-input.text wire:model.defer="editing.amount" id="amount"/>
+				</x-input.group>
+
+				<x-input.group for="status" label="Status" :error="$errors->first('editing.status')">
+					<select wire:model="editing.status" id="status">
+						@foreach(\App\Models\Transaction::STATUSES as $value => $label)
+							<option value="{{ $value }}">{{ $label }}</option>
+						@endforeach
+					</select>
+				</x-input.group>
+
+				<x-input.group for="editing_date" label="Date" :error="$errors->first('editing.editing_date')">
+					<x-input.date wire:model.defer="editing.date" id="editing_date"/>
+				</x-input.group>
+			</x-slot>
+			<x-slot name="footer">
+				<x-button
+					wire:click="$emit('showEditModal', false)"
+					color="bg-slate-200 hover:bg-slate-700 focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 hover:text-white">
+					Cancel
+				</x-button>
+				<x-button type="submit">Save</x-button>
+			</x-slot>
+		</x-modal.dialog>
+	</form>
 </div>
