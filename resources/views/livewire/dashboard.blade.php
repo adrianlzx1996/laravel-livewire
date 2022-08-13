@@ -68,6 +68,7 @@
 			@endif
 		</div>
 
+		<!-- Transactions Table -->
 		<div class="flex-col space-y-4">
 			<x-table>
 				<x-slot name="head">
@@ -165,6 +166,7 @@
 		</div>
 	</div>
 
+	<!-- Delete Transactions Modal -->
 	<form wire:submit.prevent="deleteSelected">
 		@method('DELETE')
 		<x-modal.confirmation wire:model.defer="showDeleteModal">
@@ -180,6 +182,7 @@
 		</x-modal.confirmation>
 	</form>
 
+	<!-- Edit Transactions Modal -->
 	<form wire:submit.prevent="save">
 		<x-modal.dialog wire:model.defer="showEditModal">
 			<x-slot name="title">Edit Transaction</x-slot>
