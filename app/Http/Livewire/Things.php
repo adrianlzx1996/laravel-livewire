@@ -21,5 +21,10 @@
 			$this->things = Arr::shuffle($this->things);
 		}
 
-
+		public function reorder ( $orderIds )
+		{
+			$this->things = collect($orderIds)->map(function ( $id ) {
+				return collect($this->things)->where('id', (int)$id)->first();
+			})->toArray();
+		}
 	}

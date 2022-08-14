@@ -1,7 +1,8 @@
 <div>
-	<ul class="bg-white rounded shadow divide-y">
+	<ul drag-root="reorder" class="bg-white rounded shadow divide-y">
 		@foreach($things as $thing)
-			<li wire:key="{{ $thing['id'] }}" animate-move class="w-full p-4">
+			<li drag-item="{{ $thing['id'] }}" draggable="true" wire:key="{{ $thing['id'] }}" animate-move
+			    class="w-full p-4">
 				{{ $thing['title'] }}
 			</li>
 		@endforeach
