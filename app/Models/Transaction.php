@@ -18,7 +18,7 @@
 				'failed'     => 'Failed',
 			];
 
-		protected $fillable = [ 'title', 'date', 'status' ];
+		protected $fillable = [ 'title', 'date', 'status', 'amount' ];
 		protected $casts    = [ 'date' => 'date' ];
 
 		public function getStatusColorAttribute ()
