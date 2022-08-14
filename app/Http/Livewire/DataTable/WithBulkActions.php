@@ -40,7 +40,7 @@
 			$this->selectedAll = true;
 		}
 
-		public function getSelectedRowsQuery ()
+		public function getSelectedRowsQueryProperty ()
 		{
 			return ( clone $this->rowsQuery )
 				->unless($this->selectedAll, fn ( $query ) => $query->whereKey($this->selected))

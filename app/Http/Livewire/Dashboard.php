@@ -127,7 +127,7 @@
 		public function exportSelected ()
 		{
 			return response()->streamDownload(function () {
-				$this->getSelectedRowsQuery
+				echo $this->selectedRowsQuery
 					->toCsv()
 				;
 			}, "transactions-" . now() . ".csv");
@@ -135,7 +135,7 @@
 
 		public function deleteSelected ()
 		{
-			$this->getSelectedRowsQuery
+			$this->selectedRowsQuery
 				->delete()
 			;
 
