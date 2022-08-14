@@ -5,6 +5,7 @@
 	use App\Http\Livewire\Dashboard;
 	use App\Http\Livewire\Profile;
 	use App\Http\Livewire\Things;
+	use App\Http\Livewire\UsersListPage;
 	use Illuminate\Support\Facades\Route;
 
 	/*
@@ -35,3 +36,4 @@
 	});
 
 	Route::get('things', Things::class)->name('things');
+	Route::get('users', UsersListPage::class)->name('users.list');
