@@ -6,7 +6,7 @@
 			<div class="w-2/4 flex space-x-4">
 				<x-input.text wire:model.debounce="filters.search" placeholder="Search Transactions..."/>
 
-				<x-button wire:click="$toggle('showFilters')">
+				<x-button wire:click="toggleShowFilters">
 					@if($showFilters)
 						Hide
 					@endif
