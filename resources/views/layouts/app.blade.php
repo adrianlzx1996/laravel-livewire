@@ -41,5 +41,37 @@
 <script src="https://unpkg.com/trix@2.0.0-beta.0/dist/trix.umd.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+<script>
+	let animations = [];
+
+	Livewire.hook('message.received', () => {
+		let things = Array.from(document.querySelectorAll('[animate-move]'));
+
+		animations = things.map(thing => {
+			let oldTop = thing.getBoundingClientRect().top;
+
+			return () => {
+				let newTop = thing.getBoundingClientRect().top;
+
+				thing.animate([
+					{transform: `translateY(${oldTop - newTop}px)`},
+					{transform: `translateY(0px)`},
+				], {
+					duration: 1000,
+					easing: 'ease',
+				});
+			}
+		});
+
+		things.forEach(thing => {
+			thing.getAnimations().forEach(animation => animation.finish())
+		})
+	})
+	Livewire.hook('message.processed', () => {
+		while (animations.length) {
+			animations.shift()();
+		}
+	})
+</script>
 </body>
 </html>

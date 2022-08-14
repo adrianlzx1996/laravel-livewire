@@ -4,6 +4,7 @@
 	use App\Http\Livewire\Auth\Register;
 	use App\Http\Livewire\Dashboard;
 	use App\Http\Livewire\Profile;
+	use App\Http\Livewire\Things;
 	use Illuminate\Support\Facades\Route;
 
 	/*
@@ -32,3 +33,5 @@
 		Route::get('register', Register::class)->name('register');
 		Route::get('login', Login::class)->name('login');
 	});
+
+	Route::get('things', Things::class)->name('things');
