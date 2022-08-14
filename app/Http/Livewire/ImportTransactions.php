@@ -81,7 +81,7 @@
 
 				   $importCount++;
 			   })
-			;;
+			;
 
 			$this->reset();
 			$this->emit('refreshTransactions');
