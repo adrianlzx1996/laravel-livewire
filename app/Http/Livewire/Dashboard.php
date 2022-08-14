@@ -33,7 +33,8 @@
 			];
 
 		protected $queryString = [];
-		protected $guarded     = [];
+		protected $listeners   = [ 'refreshTransactions' => '$refresh' ];
+
 
 		public function rules ()
 		{
