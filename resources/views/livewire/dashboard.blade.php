@@ -27,12 +27,14 @@
 					<x-dropdown.item type="button" class="flex items-center space-x-2" wire:click="exportSelected">
 						<span>Export</span>
 					</x-dropdown.item>
+
 					<x-dropdown.item type="button" class="flex items-center space-x-2"
 					                 wire:click="$toggle('showDeleteModal')">
 						<span>Delete</span>
 					</x-dropdown.item>
 				</x-dropdown>
 
+				<livewire:import-transactions/>
 				<x-button wire:click="create">+ New</x-button>
 			</div>
 		</div>
