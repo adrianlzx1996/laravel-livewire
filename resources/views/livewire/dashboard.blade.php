@@ -14,7 +14,15 @@
 				</x-button>
 			</div>
 
-			<div class="flex space-x-2">
+			<div class="flex space-x-2 items-center">
+				<x-input.group borderless paddingless for="perPage" label="Per Page">
+					<select wire:model="perPage" id="perPage">
+						<option value="10">10</option>
+						<option value="25">25</option>
+						<option value="50">50</option>
+					</select>
+				</x-input.group>
+
 				<x-dropdown label="Bulk Actions">
 					<x-dropdown.item type="button" class="flex items-center space-x-2" wire:click="exportSelected">
 						<span>Export</span>
@@ -24,6 +32,7 @@
 						<span>Delete</span>
 					</x-dropdown.item>
 				</x-dropdown>
+
 				<x-button wire:click="create">+ New</x-button>
 			</div>
 		</div>
