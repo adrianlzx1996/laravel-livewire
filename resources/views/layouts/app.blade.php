@@ -36,83 +36,84 @@
 </div>
 
 @livewireScripts
+<script src="https://cdn.jsdelivr.net/gh/livewire/sortable@v0.x.x/dist/livewire-sortable.js"></script>
 
 @stack('scripts')
 <script src="https://unpkg.com/trix@2.0.0-beta.0/dist/trix.umd.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-<script>
-	let animations = [];
+{{--<script>--}}
+{{--	let animations = [];--}}
 
-	Livewire.hook('message.received', () => {
-		let things = Array.from(document.querySelectorAll('[animate-move]'));
+{{--	Livewire.hook('message.received', () => {--}}
+{{--		let things = Array.from(document.querySelectorAll('[animate-move]'));--}}
 
-		animations = things.map(thing => {
-			let oldTop = thing.getBoundingClientRect().top;
+{{--		animations = things.map(thing => {--}}
+{{--			let oldTop = thing.getBoundingClientRect().top;--}}
 
-			return () => {
-				let newTop = thing.getBoundingClientRect().top;
+{{--			return () => {--}}
+{{--				let newTop = thing.getBoundingClientRect().top;--}}
 
-				thing.animate([
-					{transform: `translateY(${oldTop - newTop}px)`},
-					{transform: `translateY(0px)`},
-				], {
-					duration: 1000,
-					easing: 'ease',
-				});
-			}
-		});
+{{--				thing.animate([--}}
+{{--					{transform: `translateY(${oldTop - newTop}px)`},--}}
+{{--					{transform: `translateY(0px)`},--}}
+{{--				], {--}}
+{{--					duration: 1000,--}}
+{{--					easing: 'ease',--}}
+{{--				});--}}
+{{--			}--}}
+{{--		});--}}
 
-		things.forEach(thing => {
-			thing.getAnimations().forEach(animation => animation.finish())
-		})
-	})
-	Livewire.hook('message.processed', () => {
-		while (animations.length) {
-			animations.shift()();
-		}
-	})
+{{--		things.forEach(thing => {--}}
+{{--			thing.getAnimations().forEach(animation => animation.finish())--}}
+{{--		})--}}
+{{--	})--}}
+{{--	Livewire.hook('message.processed', () => {--}}
+{{--		while (animations.length) {--}}
+{{--			animations.shift()();--}}
+{{--		}--}}
+{{--	})--}}
 
-	let root = document.querySelector('[drag-root]');
+{{--	let root = document.querySelector('[drag-root]');--}}
 
-	root.querySelectorAll('[drag-item]').forEach(el => {
-		el.addEventListener('dragstart', e => {
-			e.target.setAttribute('dragging', true);
-		});
+{{--	root.querySelectorAll('[drag-item]').forEach(el => {--}}
+{{--		el.addEventListener('dragstart', e => {--}}
+{{--			e.target.setAttribute('dragging', true);--}}
+{{--		});--}}
 
-		el.addEventListener('drop', e => {
-			e.target.classList.remove('bg-yellow-100')
+{{--		el.addEventListener('drop', e => {--}}
+{{--			e.target.classList.remove('bg-yellow-100')--}}
 
-			//get the dragging element
-			//insert it before the drop target
+{{--			//get the dragging element--}}
+{{--			//insert it before the drop target--}}
 
-			let draggingEl = root.querySelector('[dragging]');
+{{--			let draggingEl = root.querySelector('[dragging]');--}}
 
-			e.target.before(draggingEl)
+{{--			e.target.before(draggingEl)--}}
 
-			let component = Livewire.find(e.target.closest('[wire\\:id]').getAttribute('wire:id'));
+{{--			let component = Livewire.find(e.target.closest('[wire\\:id]').getAttribute('wire:id'));--}}
 
-			let orderIds = Array.from(root.querySelectorAll('[drag-item]')).map(el => el.getAttribute('drag-item'));
+{{--			let orderIds = Array.from(root.querySelectorAll('[drag-item]')).map(el => el.getAttribute('drag-item'));--}}
 
-			let method = root.getAttribute('drag-root');
+{{--			let method = root.getAttribute('drag-root');--}}
 
-			component.call(method, orderIds);
-		});
-		el.addEventListener('dragenter', e => {
-			e.target.classList.add('bg-yellow-100')
-			e.preventDefault(); // to enable drop listener
-		});
-		el.addEventListener('dragover', e => {
-			e.preventDefault(); // to enable drop listener
-		});
-		el.addEventListener('dragleave', e => {
-			e.target.classList.remove('bg-yellow-100')
-		});
-		el.addEventListener('dragend', e => {
-			e.target.removeAttribute('dragging');
+{{--			component.call(method, orderIds);--}}
+{{--		});--}}
+{{--		el.addEventListener('dragenter', e => {--}}
+{{--			e.target.classList.add('bg-yellow-100')--}}
+{{--			e.preventDefault(); // to enable drop listener--}}
+{{--		});--}}
+{{--		el.addEventListener('dragover', e => {--}}
+{{--			e.preventDefault(); // to enable drop listener--}}
+{{--		});--}}
+{{--		el.addEventListener('dragleave', e => {--}}
+{{--			e.target.classList.remove('bg-yellow-100')--}}
+{{--		});--}}
+{{--		el.addEventListener('dragend', e => {--}}
+{{--			e.target.removeAttribute('dragging');--}}
 
-		});
-	})
-</script>
+{{--		});--}}
+{{--	})--}}
+{{--</script>--}}
 </body>
 </html>

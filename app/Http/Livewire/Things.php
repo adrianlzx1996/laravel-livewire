@@ -24,7 +24,7 @@
 		public function reorder ( $orderIds )
 		{
 			$this->things = collect($orderIds)->map(function ( $id ) {
-				return collect($this->things)->where('id', (int)$id)->first();
+				return collect($this->things)->where('id', (int)$id['value'])->first();
 			})->toArray();
 		}
 	}
